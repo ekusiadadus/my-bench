@@ -29,6 +29,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/my-image:${{ github.ref_name }}
+          tags: ghcr.io/${{ github.repository_owner }}/${{ github.ref_name }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
