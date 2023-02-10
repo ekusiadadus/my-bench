@@ -7,6 +7,12 @@ export OMP_NUM_THREADS=1
 # Set the number of iterations to run
 export ITERATIONS=1
 
+# ab log file
+export AB_LOG_FILE=ab-$(date '+%Y-%m-%d-%H-%M-%S').log
+
+# bombardier log file
+export BOMBARDIER_LOG_FILE=bombardier-$(date '+%Y-%m-%d-%H-%M-%S').log
+
 ###
 ### utility functions
 ###
@@ -28,7 +34,7 @@ function init_ab {
     echo "Initializing Apache Bench"
     echo "----------------"
     echo "Truncate Apache Bench log"
-    echo "$(date)" > ab-$(date '+%Y-%m-%d-%H-%M-%S').log
+    echo "$(date)" > $AB_LOG_FILE
     echo "----------------"
 }
 
@@ -36,7 +42,7 @@ function init_bombardier {
     echo "Initializing Bombardier"
     echo "----------------"
     echo "Truncate Bombardier log"
-    echo "$(date)" > bombardier.log
+    echo "$(date)" > $BOMBARDIER_LOG_FILE
     echo "----------------"
 }
 
@@ -46,10 +52,9 @@ function init_bombardier {
 function run_ab {
     echo "Running Apache Bench"
     echo "----------------"
-    echo "Running Apache Bench with $OMP_NUM_THREADS threads"
-    echo "Running Apache Bench with $OMP_NUM_THREADS threads" >> ab.log
+    echo "Running Apache Bench with $OMP_NUM_THREADS threads" >> ab-$(date '+%Y-%m-%d-%H-%M-%S').log
     for i in `seq 1 $ITERATIONS`; do
-        ab -k -c 10 -n 10000 $TARGET_URL >> ab.log
+        ab -k -c 10 -n 10000 $TARGET_URL >> ab-$(date '+%Y-%m-%d-%H-%M-%S').log
     done
     echo "----------------"
 }
@@ -60,14 +65,14 @@ function run_ab {
 function run_bombardier {
     echo "Running Bombardier"
     echo "----------------"
-    echo "Running Bombardier with $OMP_NUM_THREADS threads"
-    echo "Running Bombardier with $OMP_NUM_THREADS threads" >> bombardier.log
+    echo "Running Bombardier with $OMP_NUM_THREADS threads" >> $BOMBARDIER_LOG_FILE
     for i in `seq 1 $ITERATIONS`; do
-        bombardier -c 10 -n 10000 $TARGET_URL >> bombardier.log
+        bombardier -c 10 -n 10000 $TARGET_URL >> $BOMBARDIER_LOG_FILE
     done
     echo "----------------"
 }
 
+echo Your container args are: "$@"
 ###
 ### main
 ###

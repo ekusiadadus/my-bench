@@ -28,6 +28,13 @@ $ ./bench.sh [ab|bombardier] [target_url]
 $ ./bench.sh ab http://localhost:8080
 ```
 
+## Docker
+
+```bash
+$ docker build -t my-bench .
+$ docker run -it --rm my-bench bombardier http://localhost:8080
+```
+
 ## License
 
 MIT
