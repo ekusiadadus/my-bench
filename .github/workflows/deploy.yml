@@ -1,4 +1,4 @@
-name: Deploy Dcoker Image to GitHub Container Registry
+name: Deploy Docker Image to GitHub Container Registry
 
 on:
   push:
@@ -29,6 +29,6 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ghcr.io/${{ github.repository_owner }}/my-image:${{ github.ref }}
+          tags: ghcr.io/${{ github.repository_owner }}/my-image:v${{ github.ref }}
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
